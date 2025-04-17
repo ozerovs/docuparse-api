@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuParse API - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container py-5">
+        <header class="text-center mb-5">
+            <h1>DocuParse API Dashboard</h1>
+            <p class="lead">Manage your API keys and test document parsing</p>
+        </header>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="h5">Authentication</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="auth-content">
+                            <button id="login-button" class="btn btn-primary">Sign In with Supabase</button>
+                            <div id="user-info" class="d-none">
+                                <p>Signed in as: <span id="user-email"></span></p>
+                                <button id="logout-button" class="btn btn-outline-danger">Sign Out</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="h5">API Keys</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="api-keys-content">
+                            <p class="login-required-msg">Please sign in to manage your API keys</p>
+                            <div id="api-keys-actions" class="d-none">
+                                <button id="new-api-key-button" class="btn btn-success mb-3">Generate New API
+                                    Key</button>
+                                <div id="new-api-key-form" class="d-none mb-3">
+                                    <div class="input-group">
+                                        <input type="text" id="api-key-name" class="form-control"
+                                            placeholder="API Key Name">
+                                        <button id="create-api-key-button" class="btn btn-primary">Create</button>
+                                        <button id="cancel-api-key-button"
+                                            class="btn btn-outline-secondary">Cancel</button>
+                                    </div>
+                                </div>
+                                <div id="api-keys-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="h5">Document Parser Test</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="parser-test-content">
+                            <p class="login-required-msg">Please sign in and create an API key to test document parsing
+                            </p>
+                            <div id="parser-form" class="d-none">
+                                <form id="document-form" enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <label for="api-key-select" class="form-label">Select API Key</label>
+                                        <select id="api-key-select" class="form-select" required></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="document-file" class="form-label">Document File (PDF or
+                                            Image)</label>
+                                        <input type="file" id="document-file" class="form-control"
+                                            accept=".pdf,.jpg,.jpeg,.png,.tiff,.bmp,.gif" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="language-hint" class="form-label">Language Hint (optional)</label>
+                                        <input type="text" id="language-hint" class="form-control"
+                                            placeholder="e.g. eng, fra, spa">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="document-type" class="form-label">Document Type Hint
+                                            (optional)</label>
+                                        <select id="document-type" class="form-select">
+                                            <option value="">Auto-detect</option>
+                                            <option value="invoice">Invoice</option>
+                                            <option value="receipt">Receipt</option>
+                                            <option value="contract">Contract</option>
+                                            <option value="identification">Identification</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Parse Document</button>
+                                </form>
+                                <div id="parser-result" class="mt-4 d-none">
+                                    <h3>Results</h3>
+                                    <pre id="result-json" class="bg-light p-3"></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
