@@ -1,9 +1,13 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { SupabaseService } from '../../common/services/supabase.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
-    constructor(private supabaseService: SupabaseService) { }
+    constructor(
+        private supabaseService: SupabaseService,
+        private configService: ConfigService
+    ) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
@@ -11,6 +15,13 @@ export class ApiKeyGuard implements CanActivate {
 
         if (!apiKey) {
             throw new UnauthorizedException('API key is missing');
+        }
+
+        // In development mode, allow any API key
+        const nodeEnv = this.configService.get<string>('NODE_ENV');
+        if (nodeEnv === 'development') {
+            request.userId = 'dev-user';
+            return true;
         }
 
         try {
